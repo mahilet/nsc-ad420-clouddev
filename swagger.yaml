@@ -1,0 +1,63 @@
+swagger: '2.0'
+info:
+  description: This is the task API.
+  version: 1.0.0
+  title: Swagger Task api
+  termsOfService: 'http://toddysm.com/terms/'
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: taskapi.toddysm.com
+basePath: /v2
+tags:
+  - name: task
+    description: Everything about tasks
+schemes:
+  - http
+paths:
+  /users:
+    post:
+      tags:
+        - user
+      summary: Add a new user
+      description: ''
+      operationId: addUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added to the
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+        '405':
+          description: Invalid input
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      tasks:
+        type: array
+        items:
+          $ref: '#/definitions/Task'
+  Task:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      description:
+        type: string
