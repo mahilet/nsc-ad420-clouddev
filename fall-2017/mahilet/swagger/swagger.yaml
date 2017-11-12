@@ -307,7 +307,7 @@ definitions:
         example: 980473659
       taskName:
         type: string
-        example: Invalidated
+        example: Create Virtual Machines with RDMs
       complete:
         type: boolean
         default: false
