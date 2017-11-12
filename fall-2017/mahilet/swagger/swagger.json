@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Simple task creation API",
+    "description": "Mahilet for cloud development  task creation API",
     "version": "1.0.0",
-    "title": "Simple Task API",
+    "title": "Mahilet AD420-cloud development Task API",
     "contact": {
       "email": "mehalu15jan2013@gmail.com"
     },
@@ -454,7 +454,7 @@
         },
         "taskName": {
           "type": "string",
-          "example": "Create Virtual Machines with RDMs"
+          "example": "Invalidated"
         },
         "complete": {
           "type": "boolean",
