@@ -454,7 +454,7 @@
         },
         "taskName": {
           "type": "string",
-          "example": ""
+          "example": "Invalidated"
         },
         "complete": {
           "type": "boolean",

@@ -307,7 +307,7 @@ definitions:
         example: 980473659
       taskName:
         type: string
-        example: ''
+        example: Invalidated
       complete:
         type: boolean
         default: false
