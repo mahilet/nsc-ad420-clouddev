@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
-  description: Simple task creation API
+  description: Mahilet  Cloud Development Hands On Task API
   version: 1.0.0
-  title: Simple Task API
+  title: Mahilet AD420 Cloud Development Hands On Task API
   contact:
     email: mehalu15jan2013@gmail.com
   license:
