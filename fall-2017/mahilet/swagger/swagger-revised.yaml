@@ -1,0 +1,313 @@
+swagger: '2.0'
+info:
+  description: Simple task creation API
+  version: 1.0.0
+  title: Simple Task API
+  contact:
+    email: mehalu15jan2013@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: users
+    description: Perform User Account information
+  - name: tasks
+    description: 'Performance tasks '
+schemes:
+  - http
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: user object that needs to be added to the store
+      description: Find users by their usernames
+      operationId: userFind
+      produces:
+        - application/json
+      parameters:
+        - name: searchString
+          in: query
+          description: username to Find
+          required: false
+          type: string
+      responses:
+        '200':
+          description: search user by their requirements
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          description: OK
+        '404':
+          description: users not found
+    post:
+      tags:
+        - users
+      summary: Add new user
+      description: Add a user in database
+      operationId: userAdd
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: newUser
+          description: added new user
+          required: false
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Create user
+        '400':
+          description: invalid input
+        '409':
+          description: Username already exists
+  '/users/{userId}':
+    get:
+      tags:
+        - users
+      summary: Get a user by id
+      description: Find by user id
+      operationId: userIdFound
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: Find By id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: user found
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: invalid input
+        '404':
+          description: 'can''t find user id '
+    put:
+      tags:
+        - users
+      summary: update user Status
+      description: status update
+      operationId: updateUserstatus
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: updateUser
+          description: update user Status
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: user updated
+        '400':
+          description: invalid ID
+        '404':
+          description: user ID not found
+    delete:
+      tags:
+        - users
+      summary: Delete user
+      description: delete user ID
+      operationId: deleteUser
+      produces:
+        - application/json
+      parameters:
+        - name: api_key
+          in: header
+          required: false
+          type: string
+        - name: userId
+          in: path
+          description: Remove the user ID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Remove the User successfully
+        '400':
+          description: invalid ID
+        '404':
+          description: 'can''t find user Id '
+  '/users/{id}/tasks':
+    get:
+      tags:
+        - tasks
+      summary: View user task
+      description: find user's tasks
+      operationId: taskFind
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: user ID
+          required: true
+          type: integer
+        - name: taskName
+          in: query
+          description: Search for tasks associated with a user
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Search for a task when you know its task ID
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+        '400':
+          description: invalid Task
+        '404':
+          description: Can not found task
+    post:
+      tags:
+        - tasks
+      summary: Assigning a new user to a task
+      description: Add Task ID and type the task ID in the box
+      operationId: AddTasks
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: AddnewTask
+          description: Add new task
+          required: false
+          schema:
+            $ref: '#/definitions/Task'
+      responses:
+        '201':
+          description: Create task
+        '400':
+          description: invalid Task
+  '/users/{id}/tasks/{id}':
+    get:
+      tags:
+        - tasks
+      summary: View new task by ID
+      description: Search a new task
+      operationId: taskIdSearch
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: user ID
+          required: true
+          type: integer
+        - name: taskName
+          in: query
+          description: Search a task
+          required: false
+          type: string
+      responses:
+        '200':
+          description: task found
+          schema:
+            $ref: '#/definitions/Task'
+        '400':
+          description: invalid task
+        '404':
+          description: Can not search task
+    put:
+      tags:
+        - tasks
+      summary: Update Role Users task
+      description: Updating Task Status
+      operationId: updateTask
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: updateTask
+          description: successfully updated tasks
+          required: true
+          schema:
+            $ref: '#/definitions/Task'
+      responses:
+        '201':
+          description: record has been Updated successfully
+        '400':
+          description: invalid ID
+        '404':
+          description: can not search task ID
+    delete:
+      tags:
+        - tasks
+      summary: user task are deleted
+      description: delete task
+      operationId: deleteTask
+      produces:
+        - application/json
+      parameters:
+        - name: api_key
+          in: header
+          required: false
+          type: string
+        - name: id
+          in: path
+          description: 'Deleted task ID '
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: record has been successfully deleted
+        '400':
+          description: 'invalid ID '
+        '404':
+          description: Can not search task ID
+definitions:
+  User:
+    type: object
+    required:
+      - userId
+      - userName
+    properties:
+      userId:
+        type: integer
+        format: int64
+        example: 9890474659
+      userName:
+        type: string
+        example: mehalu2013
+      firstName:
+        type: string
+        example: Mehalu
+      lastName:
+        type: string
+        example: Dereje
+      tasks:
+        type: array
+        items:
+          $ref: '#/definitions/Task'
+  Task:
+    required:
+      - taskId
+      - taskName
+    properties:
+      taskId:
+        type: integer
+        format: int64
+        example: 980473659
+      taskName:
+        type: string
+        example: Create Virtual Machines with RDMs
+      complete:
+        type: boolean
+        default: false
