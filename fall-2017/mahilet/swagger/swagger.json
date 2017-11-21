@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Mahilet for cloud development  task creation API",
+    "description": "Mahilet  Cloud Development Hands On Task API",
     "version": "1.0.0",
-    "title": "Mahilet AD420-cloud development Task API",
+    "title": "Mahilet AD420 Cloud Development Hands On Task API",
     "contact": {
       "email": "mehalu15jan2013@gmail.com"
     },
@@ -41,7 +41,7 @@
           {
             "name": "searchString",
             "in": "query",
-            "description": "username to Find",
+            "description": "user to Find",
             "required": false,
             "type": "string"
           }
@@ -56,11 +56,8 @@
               }
             }
           },
-          "400": {
-            "description": "OK"
-          },
           "404": {
-            "description": "users not found"
+            "description": "invalid input"
           }
         }
       },
@@ -90,13 +87,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Create user"
+            "description": "Create user",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           },
-          "400": {
+          "404": {
             "description": "invalid input"
           },
-          "409": {
-            "description": "Username already exists"
+          "405": {
+            "description": "User already exists"
           }
         }
       }
@@ -118,7 +119,8 @@
             "in": "path",
             "description": "Find By id",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "responses": {
@@ -127,9 +129,6 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
-          },
-          "400": {
-            "description": "invalid input"
           },
           "404": {
             "description": "can't find user id "
@@ -151,6 +150,14 @@
         ],
         "parameters": [
           {
+            "name": "userId",
+            "in": "path",
+            "description": "update the user ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
             "in": "body",
             "name": "updateUser",
             "description": "update user Status",
@@ -161,14 +168,14 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "user updated"
-          },
-          "400": {
-            "description": "invalid ID"
           },
           "404": {
             "description": "user ID not found"
+          },
+          "405": {
+            "description": "invalid ID"
           }
         }
       },
@@ -184,12 +191,6 @@
         ],
         "parameters": [
           {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "userId",
             "in": "path",
             "description": "Remove the user ID",
@@ -202,16 +203,16 @@
           "200": {
             "description": "Remove the User successfully"
           },
-          "400": {
-            "description": "invalid ID"
-          },
           "404": {
             "description": "can't find user Id "
+          },
+          "405": {
+            "description": "Invalid user Id "
           }
         }
       }
     },
-    "/users/{id}/tasks": {
+    "/users/{userid}/tasks": {
       "get": {
         "tags": [
           "tasks"
@@ -224,18 +225,11 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "userid",
             "in": "path",
             "description": "user ID",
             "required": true,
             "type": "integer"
-          },
-          {
-            "name": "taskName",
-            "in": "query",
-            "description": "Search for tasks associated with a user",
-            "required": false,
-            "type": "string"
           }
         ],
         "responses": {
@@ -247,9 +241,6 @@
                 "$ref": "#/definitions/Task"
               }
             }
-          },
-          "400": {
-            "description": "invalid Task"
           },
           "404": {
             "description": "Can not found task"
@@ -274,23 +265,37 @@
             "in": "body",
             "name": "AddnewTask",
             "description": "Add new task",
-            "required": false,
+            "required": true,
             "schema": {
               "$ref": "#/definitions/Task"
             }
+          },
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "responses": {
-          "201": {
-            "description": "Create task"
+          "200": {
+            "description": "Create task",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           },
-          "400": {
-            "description": "invalid Task"
+          "404": {
+            "description": "Task not found"
+          },
+          "405": {
+            "description": "invalid input Task"
           }
         }
       }
     },
-    "/users/{id}/tasks/{id}": {
+    "/users/{userid}/tasks/{taskid}": {
       "get": {
         "tags": [
           "tasks"
@@ -303,18 +308,20 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "userid",
             "in": "path",
             "description": "user ID",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format": "int32"
           },
           {
-            "name": "taskName",
-            "in": "query",
+            "name": "taskid",
+            "in": "path",
             "description": "Search a task",
-            "required": false,
-            "type": "string"
+            "required": true,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "responses": {
@@ -324,11 +331,8 @@
               "$ref": "#/definitions/Task"
             }
           },
-          "400": {
-            "description": "invalid task"
-          },
           "404": {
-            "description": "Can not search task"
+            "description": "Can not found task"
           }
         }
       },
@@ -347,6 +351,20 @@
         ],
         "parameters": [
           {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "taskid",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
             "in": "body",
             "name": "updateTask",
             "description": "successfully updated tasks",
@@ -357,14 +375,14 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "record has been Updated successfully"
           },
-          "400": {
-            "description": "invalid ID"
-          },
           "404": {
-            "description": "can not search task ID"
+            "description": "task ID not found"
+          },
+          "405": {
+            "description": "Invalid  task ID"
           }
         }
       },
@@ -380,13 +398,14 @@
         ],
         "parameters": [
           {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
           },
           {
-            "name": "id",
+            "name": "taskid",
             "in": "path",
             "description": "Deleted task ID ",
             "required": true,
@@ -398,11 +417,11 @@
           "200": {
             "description": "record has been successfully deleted"
           },
-          "400": {
-            "description": "invalid ID "
-          },
           "404": {
-            "description": "Can not search task ID"
+            "description": "task ID not found"
+          },
+          "405": {
+            "description": "invalid task ID"
           }
         }
       }
@@ -454,7 +473,7 @@
         },
         "taskName": {
           "type": "string",
-          "example": "Invalidated"
+          "example": "Create Virtual Machines with RDMs"
         },
         "complete": {
           "type": "boolean",
